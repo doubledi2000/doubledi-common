@@ -1,4 +1,4 @@
-package com.doubledi.common.model.entity;
+package com.doubledi.common.model.domain;
 
 import com.doubledi.common.model.validator.ValidateConstant;
 import lombok.Data;
@@ -15,11 +15,12 @@ import javax.persistence.EntityListeners;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Data
 @EntityListeners(AuditingEntityListener.class)
+@Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class AuditableEntity implements Serializable {
+public class AuditableDomain implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @CreatedBy

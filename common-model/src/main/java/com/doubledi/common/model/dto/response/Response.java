@@ -5,6 +5,7 @@ import com.doubledi.common.model.dto.error.ResponseError;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -61,6 +62,46 @@ public class Response<T> implements Serializable {
     public Response<T> fail(String message, ResponseError responseError) {
         success = false;
         code = responseError.getCode();
+        if (StringUtils.hasText(message)) {
+            this.message = message;
+        } else {
+            this.message = responseError.getMessage();
+        }
+        return this;
     }
+
+    public Response<T> fail(Exception exception, ResponseError responseError) {
+        success = false;
+        code = responseError.getCode();
+        this.message = exception.getMessage();
+        return this;
+    }
+
+    public T getData() {
+        if (exception != null) {
+            throw exception;
+        }
+        return data;
+    }
+
+    public boolean isSuccess() {
+        if (exception != null) {
+            throw exception;
+        }
+        return success;
+    }
+
+    @Override
+    public String toString() {
+        return "Response {" +
+                "data=" + data +
+                ", success=" + success +
+                ", code=" + code +
+                ", message='" + message + '\'' +
+                ", timestamp=" + timestamp +
+                ", exception=" + exception +
+                '}';
+    }
+
 
 }
