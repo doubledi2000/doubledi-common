@@ -2,29 +2,25 @@ package com.doubledi.common.model.dto.response;
 
 
 import com.doubledi.common.model.dto.error.ResponseError;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.time.Instant;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class Response<T> implements Serializable {
     protected T data;
-    private boolean success;
+    private Boolean ss;
     private int code;
     private String message;
     private long timestamp;
 
-    @JsonIgnore
-    private RuntimeException exception;
+    private RuntimeException runtimeException;
 
     public Response() {
         timestamp = Instant.now().toEpochMilli();
-        success = true;
+        ss = true;
         code = 200;
     }
 
@@ -41,15 +37,15 @@ public class Response<T> implements Serializable {
         return response;
     }
 
-    public static <T> Response<T> fai(RuntimeException runtimeException) {
-        Response<T> response = new Response<>();
-        response.setSuccess(false);
-        response.setException(runtimeException);
-        return response;
-    }
+//    public static <T> Response<T> fail(RuntimeException runtimeException) {
+//        Response<T> response = new Response<>();
+//        response.setSs(false);
+//        response.setRuntimeException(runtimeException);
+//        return response;
+//    }
 
     public Response<T> success() {
-        success = true;
+        ss = true;
         code = 200;
         return this;
     }
@@ -60,7 +56,7 @@ public class Response<T> implements Serializable {
     }
 
     public Response<T> fail(String message, ResponseError responseError) {
-        success = false;
+        ss = false;
         code = responseError.getCode();
         if (StringUtils.hasText(message)) {
             this.message = message;
@@ -71,35 +67,35 @@ public class Response<T> implements Serializable {
     }
 
     public Response<T> fail(Exception exception, ResponseError responseError) {
-        success = false;
+        ss = false;
         code = responseError.getCode();
         this.message = exception.getMessage();
         return this;
     }
 
     public T getData() {
-        if (exception != null) {
-            throw exception;
+        if (runtimeException != null) {
+            throw runtimeException;
         }
         return data;
     }
 
-    public boolean isSuccess() {
-        if (exception != null) {
-            throw exception;
+    public boolean getSs() {
+        if (runtimeException != null) {
+            throw runtimeException;
         }
-        return success;
+        return ss;
     }
 
     @Override
     public String toString() {
         return "Response {" +
                 "data=" + data +
-                ", success=" + success +
+                ", success=" + ss +
                 ", code=" + code +
                 ", message='" + message + '\'' +
                 ", timestamp=" + timestamp +
-                ", exception=" + exception +
+                ", exception=" + runtimeException +
                 '}';
     }
 

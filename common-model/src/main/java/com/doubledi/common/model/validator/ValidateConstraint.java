@@ -1,6 +1,6 @@
 package com.doubledi.common.model.validator;
 
-public interface ValidateConstant {
+public interface ValidateConstraint {
     interface LENGTH {
         int CODE_MAX_LENGTH = 50;
         int NAME_MAX_LENGTH = 100;
