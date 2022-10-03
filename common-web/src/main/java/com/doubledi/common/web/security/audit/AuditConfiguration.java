@@ -1,6 +1,6 @@
-package com.doubledi.security.audit;
+package com.doubledi.common.web.security.audit;
 
-import com.doubledi.security.audit.impl.AuditorAwareImpl;
+import com.doubledi.common.web.security.audit.impl.AuditorAwareImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

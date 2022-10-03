@@ -1,4 +1,4 @@
-package com.doubledi.security;
+package com.doubledi.common.web.security;
 
 import org.springframework.context.annotation.Configuration;
 
